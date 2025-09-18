@@ -1,10 +1,10 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <div class="container py-2">
-            <a href="#" class="navbar-brand">
+            <router-link :to="{name: 'home'}" class="navbar-brand">
                 <span>Toedoe</span>
                 <strong>List</strong>
-            </a>
+            </router-link>
             <button
                 class="navbar-toggler"
                 type="button"
@@ -19,28 +19,31 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a href="my-tasks.html" class="nav-link">Tasks</a>
+                        <router-link :to="{name: 'tasks'}" class="nav-link">Tasks</router-link>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Summary</a>
+                    <li class="nav-item">             
+                        <router-link :to="{name: 'summary'}" class="nav-link">Summary</router-link>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a href="#" class="btn btn-outline-secondary ms-2"
-                            >Login</a
-                        >
+                        <router-link :to="{name: 'login'}" class="btn btn-outline-secondary ms-2">Login</router-link>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="btn btn-danger ms-2">Register</a>
+                        <router-link :to="{name: 'register'}" class="btn btn-danger ms-2">Register</router-link>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="btn btn-outline-secondary ms-2"
-                            >Logout</a
-                        >
+                        <a href="#" class="btn btn-outline-secondary ms-2">Logout</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 </template>
+
+<style scoped>
+.nav-link.router-link {
+    color: rgb(0, 0, 0,.9)
+}
+
+</style>
