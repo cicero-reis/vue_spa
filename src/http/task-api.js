@@ -1,6 +1,7 @@
 import api from '@/http/api'
 
-const resource = '/tasks'
+const apiPath = import.meta.env.VITE_API_PATH
+const resource = apiPath + '/tasks'
 
 export const listTasks = () => api.get(resource)
 

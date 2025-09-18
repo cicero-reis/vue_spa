@@ -10,17 +10,14 @@ const routes = [
         path: '/',
         name: 'home',
         component: HomePage,
-        // meta: {
-        //     auth: true
-        // }
     },
     {
         path: '/tasks',
         name: 'tasks',
         component: TasksPage,
-        // meta: {
-        //     auth: true
-        // }
+        meta: {
+            auth: true
+        }
     },
     {
         path: '/login',
@@ -31,17 +28,17 @@ const routes = [
         path: '/register',
         name: 'register',
         component: RegisterPage,
-        // meta: {
-        //     auth: true
-        // }
+        meta: {
+            auth: true
+        }
     },
     {
         path: '/summary',
         name: 'summary',
         component: SummaryPage,
-        // meta: {
-        //     auth: true
-        // }
+        meta: {
+            auth: true
+        }
     },
     {
         path: "/:notFound(.*)",
