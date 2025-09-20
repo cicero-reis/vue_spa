@@ -19,6 +19,7 @@ import Task from './Task.vue';
 import { useTaskStore } from '@/stores/task';
 
 const store = useTaskStore()
+
 const { handleUpdatedTask, handleCompletedTask, handleRemovedTask } = store
 
 defineProps({

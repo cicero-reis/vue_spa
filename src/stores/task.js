@@ -1,6 +1,6 @@
 import { ref, reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { listTasks, findTask, createTask, updateTask, updateIsCompleteTask, deleteTask } from '@/http/task-api'
+import { listTasks, findTask, createTask, updateTask, updateIsCompleteTask, updateUserIdTask, deleteTask } from '@/http/task-api'
 
 export const useTaskStore = defineStore('taskStore', () => {
 
@@ -12,13 +12,21 @@ export const useTaskStore = defineStore('taskStore', () => {
     const unCompletedTasks = computed(() => tasks.value.filter(task => !task.is_completed))
 
     const handleListTask = async () => {
-        const { data } = await listTasks()
-        tasks.value = data.data
+        try {
+            const { data } = await listTasks()
+            tasks.value = data.data
+        } catch (error) {
+            errors.value = error
+        }
     }
 
     const handleFindTask = async (task) => {
-        const { data } = await findTask(task.id)
-        task.value = data
+        try {
+            const { data } = await findTask(task.id)
+            task.value = data
+        } catch (error) {
+            errors.value = error
+        }
     }
 
     const handleAddedTask = async (newTask) => {
@@ -31,24 +39,44 @@ export const useTaskStore = defineStore('taskStore', () => {
     }
 
     const handleUpdatedTask = async (task) => {
-        const { data: updatedTask } = await updateTask(task.id, task)
-        const currentTask = tasks.value.find(item => item.id === task.id)
-        currentTask.name = updatedTask.name
+        try {
+            const { data: updatedTask } = await updateTask(task.id, task)
+            const currentTask = tasks.value.find(item => item.id === task.id)
+            currentTask.name = updatedTask.name
+        } catch (error) {
+            errors.value = error
+        }
     }
 
     const handleCompletedTask = async (task) => {
-        const isCompleted = task.is_completed ? 1 : 0
-        const { data: updateIsCompletedTask } = await updateIsCompleteTask(task.id, {
-            is_completed: isCompleted
-        })
-        const currentTask = tasks.value.find(item => item.id === task.id)
-        currentTask.is_completed = updateIsCompletedTask.is_completed
+        try {
+            const isCompleted = task.is_completed ? 1 : 0
+            await updateIsCompleteTask(task.id, { is_completed: isCompleted})
+            const { data } = await listTasks()
+            tasks.value = data.data
+        } catch (error) {
+            errors.value = error
+        }
+    }
+
+    const handledAssignTask = async (taskId, userId) => {
+        try {
+            await updateUserIdTask(taskId, { user_id: userId })
+            const { data } = await listTasks()
+            tasks.value = data.data
+        } catch (error) {
+            errors.value = error
+        }
     }
 
     const handleRemovedTask = async (task) => {
-        await deleteTask(task.id)
-        const index = tasks.value.findIndex((item) => item.id === task.id)
-        tasks.value.splice(index, 1)
+        try {
+            await deleteTask(task.id)
+            const index = tasks.value.findIndex((item) => item.id === task.id)
+            tasks.value.splice(index, 1)
+        } catch (error) {
+            errors.value = error
+        }
     }
 
     return {
@@ -61,6 +89,7 @@ export const useTaskStore = defineStore('taskStore', () => {
         handleAddedTask,
         handleUpdatedTask,
         handleCompletedTask,
+        handledAssignTask,
         handleRemovedTask
     }
 })

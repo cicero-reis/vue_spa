@@ -29,8 +29,9 @@ api.interceptors.response.use(
 
         const store = useAuthStore();
 
+        
         if (!error.response) {
-            return Promise.reject(error)
+            return Promise.reject({ auth: ["Oops! Something went wrong"] })
         }
 
         const { status, data } = error.response
@@ -40,7 +41,7 @@ api.interceptors.response.use(
         }
 
         if (status === 403) {
-            alert('Não tem permissão')
+            return Promise.reject({ auth: [error.response.data.error || "No permission"] })
         }
 
         if (status === 422) {
@@ -49,8 +50,7 @@ api.interceptors.response.use(
         }
 
         if (status === 500) {
-            const validationErrors = error.response.data.errors
-            return Promise.reject(validationErrors)
+            return Promise.reject({ auth: [error.response.data.error || "Oops! Something went wrong"] })
         }
 
         return Promise.reject(error)

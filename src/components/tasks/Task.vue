@@ -21,7 +21,7 @@
                     <a v-else href="#" class="text-decoration-none" @click.prevent="assignTask(task.id)">Not Assigned</a>
                 </div>
                 <div class="task-date">created: {{ task.created_at }}</div>
-                <div class="task-date">updated: {{ task.created_at }}</div>
+                <div class="task-date">updated: {{ task.updated_at }}</div>
 
             </div>
         </div>
@@ -31,7 +31,14 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import { useTaskStore } from '@/stores/task';
+import { useAuthStore } from '@/stores/auth';
 import TaskActions from '@/components/tasks/TaskActions.vue'
+
+const store = useTaskStore()
+const { handledAssignTask } = store
+
+const authStore = useAuthStore()
 
 const props = defineProps({
     task: Object
@@ -70,8 +77,8 @@ const removeTask = () => {
     }
 }
 
-const assignTask = (task) => {
-    console.log(task)
+const assignTask = async (taskId) => {
+    await handledAssignTask(taskId, authStore.user.id)
 }
 
 </script>

@@ -11,6 +11,8 @@ export const createTask = (task) => api.post(`${resource}`, task)
 
 export const updateTask = (id, task) => api.put(`${resource}/${id}`, task)
 
-export const updateIsCompleteTask = (id, task) => api.patch(`${resource}/${id}`, task)
+export const updateIsCompleteTask = (id, task) => api.patch(`${resource}/iscompleted/${id}`, task)
+
+export const updateUserIdTask = (id, task) => api.patch(`${resource}/userid/${id}`, task)
 
 export const deleteTask = (id) => api.delete(`${resource}/${id}`)
