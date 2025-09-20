@@ -32,10 +32,10 @@ import NewTask from '@/components/tasks/NewTask.vue';
 
 const store = useTaskStore()
 const { completedTasks, unCompletedTasks } = storeToRefs(store)
-const { fetchListTask } = store
+const { handleListTask } = store
 
 onMounted(async () => {
-    await fetchListTask()
+    await handleListTask()
 })
 
 const showToggleCompletedBtn = computed(

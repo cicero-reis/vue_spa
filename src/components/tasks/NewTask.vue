@@ -1,4 +1,9 @@
 <template>
+    <div v-if="Object.keys(store.errors).length" class="alert alert-danger">
+        <div v-for="(messages, field) in store.errors" :key="field">
+            <span v-for="msg in messages" :key="msg" class="d-block">{{ msg }}</span>
+        </div>
+    </div>
     <div class="relative">
         <input type="text" 
             class="form-control form-control-lg padding-right-lg"
@@ -22,11 +27,9 @@ const newTask = reactive({
 })
 
 const addNewTask = async (event) => {
-    if (event.target.value.trim()) {
-        newTask.name = event.target.value
-        newTask.user_id = event.target.value
-        event.target.value = ""
-        await handleAddedTask(newTask)        
-    }
+    newTask.name = event.target.value
+    newTask.user_id = event.target.value
+    event.target.value = ""
+    await handleAddedTask(newTask)
 }
 </script>

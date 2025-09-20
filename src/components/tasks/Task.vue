@@ -1,37 +1,31 @@
 <template>
     <li class="list-group-item py-3">
         <div class="d-flex justify-content-start align-items-center">
-            <input 
-                class="form-check-input mt-0"
-                :class="completedClass"
-                type="checkbox"
-                :checked="task.is_completed"
-                @change="markTaskAsCompleted"
-            />
-            <div class="ms-2 flex-grow-1" 
-                :class="completedClass" handleRemovedTask
-                title="Double click the text to edit or remove"
-                @dblclick="isEdit = true"
-            >                
-            <div class="relative" v-if="isEdit">
-                <input 
-                    class="editable-task" 
-                    type="text" 
-                    v-focus
-                    @keyup.esc="undo"
-                    @keyup.enter="updateTask"
-                    v-model="editingTask"
-                />
+            <input class="form-check-input mt-0" :class="completedClass" type="checkbox" :checked="task.is_completed"
+                @change="markTaskAsCompleted" />
+            <div class="ms-2 flex-grow-1" :class="completedClass" handleRemovedTask
+                title="Double click the text to edit or remove" @dblclick="isEdit = true">
+                <div class="relative" v-if="isEdit">
+                    <input class="editable-task" type="text" v-focus @keyup.esc="undo" @keyup.enter="updateTask"
+                        v-model="editingTask" />
+                </div>
+                <span v-else>
+                    {{ task.name }}
+                </span>
             </div>
-            <span v-else>{{ task.name }}</span>
+            <div class="d-flex flex-column text-end">
+                <div class="task-user text-muted" style="font-size: 0.85rem;">
+                    <span v-if="task.user && task.user.name">
+                        Assignee: {{ task.user.name }}
+                    </span>
+                    <a v-else href="#" class="text-decoration-none" @click.prevent="assignTask(task.id)">Not Assigned</a>
+                </div>
+                <div class="task-date">created: {{ task.created_at }}</div>
+                <div class="task-date">updated: {{ task.created_at }}</div>
+
             </div>
-            <div class="task-date">{{ task.created_at }}</div>
         </div>
-        <TaskActions
-            @edit="isEdit = true" 
-            v-show="!isEdit"
-            @remove="removeTask"
-        />
+        <TaskActions @edit="isEdit = true" v-show="!isEdit" @remove="removeTask" />
     </li>
 </template>
 
@@ -76,5 +70,8 @@ const removeTask = () => {
     }
 }
 
-</script>
+const assignTask = (task) => {
+    console.log(task)
+}
 
+</script>

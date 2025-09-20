@@ -1,22 +1,33 @@
 import { ref, reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { listTasks, createTask, updateTask, updateIsCompleteTask, deleteTask } from '@/http/task-api'
+import { listTasks, findTask, createTask, updateTask, updateIsCompleteTask, deleteTask } from '@/http/task-api'
 
 export const useTaskStore = defineStore('taskStore', () => {
 
     const tasks = ref([])
+    const task = ref()
+    const errors = ref([])
 
     const completedTasks = computed(() => tasks.value.filter(task => task.is_completed))
     const unCompletedTasks = computed(() => tasks.value.filter(task => !task.is_completed))
 
-    const fetchListTask = async () => {
+    const handleListTask = async () => {
         const { data } = await listTasks()
         tasks.value = data.data
     }
 
+    const handleFindTask = async (task) => {
+        const { data } = await findTask(task.id)
+        task.value = data
+    }
+
     const handleAddedTask = async (newTask) => {
-        const { data: createdTask } = await createTask(newTask)
-        tasks.value.unshift(createdTask)
+        try {
+            const { data: createdTask } = await createTask(newTask)
+            tasks.value.unshift(createdTask)
+        } catch (error) {
+            errors.value = error
+        }
     }
 
     const handleUpdatedTask = async (task) => {
@@ -41,10 +52,12 @@ export const useTaskStore = defineStore('taskStore', () => {
     }
 
     return {
-        tasks, 
+        tasks,
+        errors,
         completedTasks, 
         unCompletedTasks, 
-        fetchListTask, 
+        handleListTask, 
+        handleFindTask,
         handleAddedTask,
         handleUpdatedTask,
         handleCompletedTask,
