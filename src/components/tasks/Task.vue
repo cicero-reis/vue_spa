@@ -12,9 +12,16 @@
                 <span v-else>
                     {{ task.name }}
                 </span>
+                <div class="d-flex flex-column text-start">
+                    <div class="task-delivery-status text-muted">
+                        <span v-if="task.delivery_status && task.delivery_status.value">
+                            Delivery: <strong :style="{ color: task.delivery_status.color }">{{ task.delivery_status.value }}</strong>
+                        </span>
+                    </div>
+                </div>
             </div>
             <div class="d-flex flex-column text-end">
-                <div class="task-user text-muted" style="font-size: 0.85rem;">
+                <div class="task-user text-muted">
                     <span v-if="task.user && task.user.name">
                         Assignee: {{ task.user.name }}
                     </span>
@@ -82,3 +89,10 @@ const assignTask = async (taskId) => {
 }
 
 </script>
+
+<style scoped> 
+.task-user,
+.task-delivery-status {
+    font-size: 0.85rem;
+}
+</style>

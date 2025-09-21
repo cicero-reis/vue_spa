@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { login, logout } from '@/http/auth-api'
+import registerFcmToken from "@/services/registerFcmToken";
 import jwtDecode from "jwt-decode" 
 
 export const useAuthStore = defineStore('authStore', () => {
@@ -17,6 +18,8 @@ export const useAuthStore = defineStore('authStore', () => {
             token.value = result.data.access_token
             localStorage.setItem('token', token.value)
             user.value = jwtDecode(token.value)
+            // Registrar token FCM
+            await registerFcmToken();
         } catch (error) {
             errors.value = error
         }

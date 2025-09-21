@@ -1,10 +1,26 @@
 <script setup>
 import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
+import { onMounted } from "vue";
+import { useNotificationStore } from "@/stores/notifications";
+import NotificationBadge from "@/components/NotificationBadge.vue";
+
+const store = useNotificationStore();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/firebase-messaging-sw.js')
+    .then(() => console.log("Service Worker registrado"));
+}
+
+onMounted(async () => {
+  await store.register();
+  store.listenForegroundMessages();
+});
 </script>
 
 <template>
   <Navbar />
+  <NotificationBadge />
   <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">
           <component :is="Component" />
