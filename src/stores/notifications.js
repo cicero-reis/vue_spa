@@ -23,12 +23,12 @@ export const useNotificationStore = defineStore("notifications", {
 
     addNotification(notification) {
       this.notifications.push(notification);
-      localStorage.setItem("notifications", JSON.stringify(this.notifications));
+      //localStorage.setItem("notifications", JSON.stringify(this.notifications));
     },
 
     clearNotifications() {
       this.notifications = [];
-      localStorage.removeItem("notifications");
+      //localStorage.removeItem("notifications");
     },
   },
 });
