@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <div class="container py-2">
             <router-link :to="{ name: 'home' }" class="navbar-brand">
-                <span>Toedoe</span>
+                <span>Task</span>
                 <strong>List</strong>
             </router-link>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"

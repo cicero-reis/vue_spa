@@ -36,6 +36,7 @@
                     <a v-else href="#" class="text-decoration-none" @click.prevent="assignTask(task.id)">Not
                         Assigned</a>
                 </div>
+                <div class="task-date">due date: {{ task.due_date }}</div>
                 <div class="task-date">created: {{ task.created_at }}</div>
                 <div class="task-date">updated: {{ task.updated_at }}</div>
 
