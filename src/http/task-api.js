@@ -3,7 +3,7 @@ import api from '@/http/api'
 const apiPath = import.meta.env.VITE_API_PATH
 const resource = apiPath + '/tasks'
 
-export const listTasks = () => api.get(resource)
+export const listTasks = (page) => api.get(`${resource}?page=${page}`)
 
 export const findTask = (id) => api.get(`${resource}/${id}`)
 

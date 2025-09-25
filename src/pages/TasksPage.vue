@@ -3,8 +3,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 offset-md-2">
-                    
+
                     <NewTask />
+
+                    <h5 class="mt-3 mb-3 fw-bold">Total de Registros: <span class="badge bg-success">{{ meta.total }}</span></h5>
 
                     <Tasks :tasks="unCompletedTasks" />
 
@@ -16,6 +18,9 @@
                     </div>
 
                     <Tasks :tasks="completedTasks" :show="completedTaskIsVisible && showCompletedTasks" />
+
+                    <TaskPaginate :meta="meta" />
+
                 </div>
             </div>
         </div>
@@ -28,10 +33,11 @@ import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useTaskStore } from '@/stores/task'
 import Tasks from '@/components/tasks/Tasks.vue';
+import TaskPaginate from '@/components/tasks/TaskPaginate.vue';
 import NewTask from '@/components/tasks/NewTask.vue';
 
 const store = useTaskStore()
-const { completedTasks, unCompletedTasks } = storeToRefs(store)
+const { completedTasks, unCompletedTasks, meta } = storeToRefs(store)
 const { handleListTask } = store
 
 onMounted(async () => {

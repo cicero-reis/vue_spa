@@ -6,15 +6,17 @@ export const useTaskStore = defineStore('taskStore', () => {
 
     const tasks = ref([])
     const task = ref()
+    const meta = ref({})
     const errors = ref([])
 
     const completedTasks = computed(() => tasks.value.filter(task => task.is_completed))
     const unCompletedTasks = computed(() => tasks.value.filter(task => !task.is_completed))
 
-    const handleListTask = async () => {
+    const handleListTask = async (page = 1) => {
         try {
-            const { data } = await listTasks()
+            const { data } = await listTasks(page)
             tasks.value = data.data
+            meta.value = data.meta
         } catch (error) {
             errors.value = error
         }
@@ -51,7 +53,7 @@ export const useTaskStore = defineStore('taskStore', () => {
     const handleCompletedTask = async (task) => {
         try {
             const isCompleted = task.is_completed ? 1 : 0
-            await updateIsCompleteTask(task.id, { is_completed: isCompleted})
+            await updateIsCompleteTask(task.id, { is_completed: isCompleted })
             const { data } = await listTasks()
             tasks.value = data.data
         } catch (error) {
@@ -81,10 +83,11 @@ export const useTaskStore = defineStore('taskStore', () => {
 
     return {
         tasks,
+        meta,
         errors,
-        completedTasks, 
-        unCompletedTasks, 
-        handleListTask, 
+        completedTasks,
+        unCompletedTasks,
+        handleListTask,
         handleFindTask,
         handleAddedTask,
         handleUpdatedTask,

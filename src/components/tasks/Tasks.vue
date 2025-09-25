@@ -1,4 +1,4 @@
-<template>
+<template>    
     <div class="card mt-2" v-if="tasks.length && show">
         <ul class="list-group list-group-flush">
             <Task v-for="task in tasks" 
@@ -6,8 +6,7 @@
                 :key="task.id" 
                 @updated="handleUpdatedTask"
                 @completed="handleCompletedTask"
-                @removed="handleRemovedTask"
-                
+                @removed="handleRemovedTask"                
             />
         </ul>
     </div>

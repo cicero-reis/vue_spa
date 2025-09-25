@@ -1,6 +1,8 @@
 <template>
     <li class="list-group-item py-3">
         <div class="d-flex justify-content-start align-items-center">
+            <img v-if="task.user" class="rounded-circle me-2" width="40" height="40" :src="task.user?.profile"
+                :alt="task.user?.name">
             <input class="form-check-input mt-0" :class="completedClass" type="checkbox" :checked="task.is_completed"
                 @change="markTaskAsCompleted" />
             <div class="ms-2 flex-grow-1" :class="completedClass" handleRemovedTask
@@ -15,7 +17,13 @@
                 <div class="d-flex flex-column text-start">
                     <div class="task-delivery-status text-muted">
                         <span v-if="task.delivery_status && task.delivery_status.value">
-                            Delivery: <strong :style="{ color: task.delivery_status.color }">{{ task.delivery_status.value }}</strong>
+                            Priority: <strong :style="{ color: task.delivery_status.color }">
+                                {{ task.priority}}</strong>
+                        </span>
+                    </div>
+                    <div class="task-delivery-status text-muted">
+                        <span v-if="task.delivery_status && task.delivery_status.value">
+                            Delivery: <strong :style="{ color: task.delivery_status.color }">{{task.delivery_status.value}}</strong>
                         </span>
                     </div>
                 </div>
@@ -25,7 +33,8 @@
                     <span v-if="task.user && task.user.name">
                         Assignee: {{ task.user.name }}
                     </span>
-                    <a v-else href="#" class="text-decoration-none" @click.prevent="assignTask(task.id)">Not Assigned</a>
+                    <a v-else href="#" class="text-decoration-none" @click.prevent="assignTask(task.id)">Not
+                        Assigned</a>
                 </div>
                 <div class="task-date">created: {{ task.created_at }}</div>
                 <div class="task-date">updated: {{ task.updated_at }}</div>
@@ -41,6 +50,7 @@ import { computed, ref } from 'vue'
 import { useTaskStore } from '@/stores/task';
 import { useAuthStore } from '@/stores/auth';
 import TaskActions from '@/components/tasks/TaskActions.vue'
+
 
 const store = useTaskStore()
 const { handledAssignTask } = store
@@ -90,7 +100,7 @@ const assignTask = async (taskId) => {
 
 </script>
 
-<style scoped> 
+<style scoped>
 .task-user,
 .task-delivery-status {
     font-size: 0.85rem;
