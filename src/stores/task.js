@@ -9,10 +9,10 @@ export const useTaskStore = defineStore('taskStore', () => {
     const meta = ref({})
     const errors = ref([])
 
-    const completedTasks = computed(() => tasks.value.filter(task => task.is_completed))
+    const completedTasks = computed(() => tasks.value.filter(task => task))
     const unCompletedTasks = computed(() => tasks.value.filter(task => !task.is_completed))
 
-    const handleListTask = async (page = 1) => {
+    const handleListTask = async (page = 0) => {
         try {
             const { data } = await listTasks(page)
             tasks.value = data.data

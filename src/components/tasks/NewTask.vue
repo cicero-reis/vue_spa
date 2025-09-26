@@ -4,32 +4,48 @@
             <span v-for="msg in messages" :key="msg" class="d-block">{{ msg }}</span>
         </div>
     </div>
+
     <div class="relative">
-        <input type="text" 
+        <!-- Campo da task -->
+        <input 
+            type="text"
+            v-model="newTask.name"
             class="form-control form-control-lg padding-right-lg"
-            placeholder="+ Add new task. Press enter to save." 
-            @keydown.enter="addNewTask"
+            placeholder="+ Add new task"
         />
+
+        <!-- Campo priority -->
+        <select v-model="newTask.priority" class="form-select mt-2">
+            <option disabled value="">Select priority</option>
+            <option value="1">Low</option>
+            <option value="2">Normal</option>
+            <option value="3">High</option>
+        </select>
+
+        <!-- Botão de salvar -->
+        <button class="btn btn-primary mt-2" @click="addNewTask">
+            Salvar
+        </button>
     </div>
 </template>
 
 <script setup>
-import {  reactive } from 'vue'
+import { reactive } from 'vue'
 import { useTaskStore } from '@/stores/task'
 
 const store = useTaskStore()
-
 const { handleAddedTask } = store
 
 const newTask = reactive({
     name: '',
-    user_id: 1
+    priority: ''
 })
 
-const addNewTask = async (event) => {
-    newTask.name = event.target.value
-    newTask.user_id = event.target.value
-    event.target.value = ""
-    await handleAddedTask(newTask)
+const addNewTask = async () => {
+
+    await handleAddedTask({ ...newTask })
+    
+    newTask.name = ''
+    newTask.priority = ''
 }
 </script>

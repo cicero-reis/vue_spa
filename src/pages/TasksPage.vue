@@ -8,16 +8,14 @@
 
                     <h5 class="mt-3 mb-3 fw-bold">Total de Registros: <span class="badge bg-success">{{ meta.total }}</span></h5>
 
-                    <Tasks :tasks="unCompletedTasks" />
+                    <Tasks :tasks="tasks" />
 
-                    <div class="text-center my-3" v-show="showToggleCompletedBtn">
+                    <!-- <div class="text-center my-3" v-show="showToggleCompletedBtn">
                         <button class="btn btn-sm btn-secondary" @click="showCompletedTasks = !showCompletedTasks">
                             <span v-if="!showCompletedTasks">Show completed</span>
                             <span v-else>Hide completed</span>
                         </button>
-                    </div>
-
-                    <Tasks :tasks="completedTasks" :show="completedTaskIsVisible && showCompletedTasks" />
+                    </div> -->
 
                     <TaskPaginate :meta="meta" />
 
@@ -37,19 +35,19 @@ import TaskPaginate from '@/components/tasks/TaskPaginate.vue';
 import NewTask from '@/components/tasks/NewTask.vue';
 
 const store = useTaskStore()
-const { completedTasks, unCompletedTasks, meta } = storeToRefs(store)
+const { completedTasks, unCompletedTasks, meta, tasks } = storeToRefs(store)
 const { handleListTask } = store
 
 onMounted(async () => {
     await handleListTask()
 })
 
-const showToggleCompletedBtn = computed(
-    () => unCompletedTasks.value.length > 0 && completedTasks.value.length > 0
-)
-const completedTaskIsVisible = computed(
-    () => unCompletedTasks.value.length === 0 || completedTasks.value.length > 0
-)
-const showCompletedTasks = ref(false)
+// const showToggleCompletedBtn = computed(
+//     () => unCompletedTasks.value.length > 0 && completedTasks.value.length > 0
+// )
+// const completedTaskIsVisible = computed(
+//     () => unCompletedTasks.value.length === 0 || completedTasks.value.length > 0
+// )
+// const showCompletedTasks = ref(false)
 
 </script>

@@ -54,7 +54,7 @@ watch(
       // Verifica se o toast já está ativo
       if (!n._timeoutSet) {
         n._timeoutSet = true; // evita duplicar o timeout
-        setTimeout(() => removeToast(n.task_id), 30000); // 5 minuto
+        //setTimeout(() => removeToast(n.task_id), 30000); // 5 minuto
       }
     });
   },

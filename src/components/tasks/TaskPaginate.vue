@@ -35,8 +35,6 @@ const totalPagesArray = computed(() => {
   return Array.from({ length: props.meta.total_pages }, (_, i) => i + 1)
 })
 
-console.log(props.meta.current_page, props.meta.total_pages, totalPagesArray)
-
 const changePage = async (page) => {
     if (page < 1 || page > props.meta.total_pages) return
         await handleListTask(page)

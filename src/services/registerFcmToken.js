@@ -1,5 +1,6 @@
 import { messaging, getFcmToken  } from "@/services/firebase"
-import { fmc } from '@/http/auth-api'
+import { fmc } from '@/http/user-api'
+import { useAuthStore } from '@/stores/auth';
 
 const registerFcmToken = async () => {
   try {
@@ -21,10 +22,10 @@ const registerFcmToken = async () => {
       return;
     }
 
-    console.log("FCM token:", token);
+    const store = useAuthStore()
 
     // Envia para o backend (Laravel)
-    await fmc({ fcm_token: token });
+    await fmc(store.user.id, { fcm_token: token });
 
   } catch (error) {
     console.error("Erro ao registrar token FCM:", error);

@@ -4,6 +4,7 @@ import LoginPage from "@/pages/LoginPage.vue"
 import RegisterPage from "@/pages/RegisterPage.vue"
 import UsersPage from "@/pages/UsersPage.vue"
 import NotFoundErrorPage from "@/pages/errors/NotFoundErrorPage.vue"
+import UserFeedBack from "@/pages/UserFeedBack.vue"
 
 const routes = [
     {
@@ -36,6 +37,14 @@ const routes = [
         path: '/users',
         name: 'users',
         component: UsersPage,
+        meta: {
+            auth: true
+        }
+    },
+    {
+        path: '/feedBack',
+        name: 'feedBack',
+        component: UserFeedBack,
         meta: {
             auth: true
         }

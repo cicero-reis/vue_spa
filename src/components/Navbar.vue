@@ -31,6 +31,7 @@
                                 <strong>{{ store.user.name }}</strong>
                             </a>
                             <ul class="dropdown-menu" :class="toggleClass">
+                                <router-link :to="{ name: 'feedBack' }" class="nav-link ms-2">My FeedBack</router-link>
                                 <li><a href="#" class="dropdown-item" @click.prevent="logout">Logout</a></li>
                             </ul>
                         </li>
@@ -48,6 +49,7 @@ import { useAuthStore } from '@/stores/auth';
 
 const router = useRouter()
 const store = useAuthStore()
+
 const isOpen = ref(false)
 
 const logout = async () => {
