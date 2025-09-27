@@ -5,6 +5,6 @@ const apiPathLangChain = import.meta.env.VITE_API_PATH_LANGCHAIN
 
 export const fmc = (id, token) => api.post(`${apiPath}/users/fcm-token/${id}`, token)
 
-export const taskSummary = (id) => api.get(`${apiPath}/users/tasksummary/${id}`)
+export const taskSummary = (id) => api.get(`${apiPath}/users/${id}/tasksummary`)
 
 export const feedback = (userTasks) => api.post(`${apiPathLangChain}/api/feedback`, userTasks)

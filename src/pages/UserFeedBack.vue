@@ -2,9 +2,6 @@
   <div class="container my-5">
     <!-- Botões principais -->
     <div class="d-flex justify-content-center gap-3 mb-4">
-      <button class="btn btn-primary btn-lg" @click.prevent="taskSumary">
-        Task Summary
-      </button>
       <button class="btn btn-outline-secondary btn-lg" @click.prevent="myFeedBack">
         My Feedback
       </button>
@@ -80,7 +77,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { userStore } from '@/stores/user'
 import { useAuthStore } from '@/stores/auth'
@@ -94,9 +91,9 @@ const { handleTaskSumary, handleFeedBack } = storeUser
 const summaryText = computed(() => feedbackObject.value?.summary ?? '')
 const taskSummary = computed(() => taskSummaryObject?.value ?? '')
 
-const taskSumary = async () => {
+onMounted(async () => {
     await handleTaskSumary(storeAuth.user.id)
-}
+})
 
 const myFeedBack = async () => {
     const payload = {
