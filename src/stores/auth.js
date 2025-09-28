@@ -18,7 +18,6 @@ export const useAuthStore = defineStore('authStore', () => {
             token.value = result.data.access_token
             localStorage.setItem('token', token.value)
             user.value = jwtDecode(token.value)
-            // Registrar token FCM
             await registerFcmToken();
         } catch (error) {
             errors.value = error

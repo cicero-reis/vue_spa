@@ -27,13 +27,11 @@ import { useNotificationStore } from "@/stores/notifications";
 
 const store = useNotificationStore();
 
-// Remove manual
 function removeToast(taskId) {
   const index = store.notifications.findIndex((t) => t.task_id === taskId);
   if (index !== -1) store.notifications.splice(index, 1);
 }
 
-// Inicializa todos os toasts do Bootstrap
 async function initToasts() {
   await nextTick();
   const toastEls = document.querySelectorAll(".toast");
@@ -51,9 +49,8 @@ watch(
   () => store.notifications,
   (notifications) => {
     notifications.forEach((n) => {
-      // Verifica se o toast já está ativo
       if (!n._timeoutSet) {
-        n._timeoutSet = true; // evita duplicar o timeout
+        n._timeoutSet = true;
         //setTimeout(() => removeToast(n.task_id), 30000); // 5 minuto
       }
     });
@@ -65,6 +62,6 @@ watch(
 <style>
 .toast-container .toast {
   min-width: 300px;
-  margin-bottom: 0.5rem; /* espaçamento entre toasts */
+  margin-bottom: 0.5rem;
 }
 </style>

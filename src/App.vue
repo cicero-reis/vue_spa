@@ -16,6 +16,7 @@ onMounted(async () => {
   await store.register();
   store.listenForegroundMessages();
 });
+
 </script>
 
 <template>

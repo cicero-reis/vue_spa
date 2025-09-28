@@ -4,7 +4,7 @@ import { useAuthStore } from '@/stores/auth';
 
 const registerFcmToken = async () => {
   try {
-    // Solicita permissão de notificações
+
     const permission = await Notification.requestPermission();
 
     if (permission !== "granted") {
@@ -12,7 +12,6 @@ const registerFcmToken = async () => {
       return;
     }
 
-    // Pega o token do Firebase para este navegador
     const token = await getFcmToken(messaging, {
       vapidKey: import.meta.env.VITE_FCM_VAPID_KEY,
     });
@@ -24,7 +23,6 @@ const registerFcmToken = async () => {
 
     const store = useAuthStore()
 
-    // Envia para o backend (Laravel)
     await fmc(store.user.id, { fcm_token: token });
 
   } catch (error) {

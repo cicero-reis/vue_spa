@@ -1,13 +1,6 @@
 <template>
   <div class="container my-5">
-    <!-- Botões principais -->
-    <div class="d-flex justify-content-center gap-3 mb-4">
-      <button class="btn btn-outline-secondary btn-lg" @click.prevent="myFeedBack">
-        My Feedback
-      </button>
-    </div>
 
-    <!-- Resumo das Tarefas -->
     <div v-if="taskSummary?.task_summary" class="card shadow-sm">
       <div class="card-header bg-primary text-white">
         <h5 class="mb-0">Resumo das Tarefas - {{ taskSummary.user_name }}</h5>
@@ -51,14 +44,9 @@
               <div class="card-body">
                 <h6 class="card-title">Percentual no Prazo</h6>
                 <div class="progress" style="height: 25px;">
-                  <div
-                    class="progress-bar bg-success"
-                    role="progressbar"
+                  <div class="progress-bar bg-success" role="progressbar"
                     :style="{ width: taskSummary.task_summary.percent_on_time + '%' }"
-                    :aria-valuenow="taskSummary.task_summary.percent_on_time"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
+                    :aria-valuenow="taskSummary.task_summary.percent_on_time" aria-valuemin="0" aria-valuemax="100">
                     {{ taskSummary.task_summary.percent_on_time }}%
                   </div>
                 </div>
@@ -66,10 +54,15 @@
             </div>
           </div>
         </div>
-      </div>  
+      </div>
+    </div>
+    <div class="d-flex justify-content-center gap-3 mt-4">
+      <button class="btn btn-outline-secondary btn-lg" @click.prevent="myFeedBack" :disabled="loading">
+        <span v-if="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        My Feedback
+      </button>
     </div>
 
-    <!-- Feedback -->
     <div v-if="summaryText" class="alert alert-info mt-4" role="alert">
       {{ summaryText }}
     </div>
@@ -77,36 +70,47 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { userStore } from '@/stores/user'
 import { useAuthStore } from '@/stores/auth'
 
 const storeUser = userStore()
 const storeAuth = useAuthStore()
-
 const { taskSummaryObject, feedbackObject } = storeToRefs(storeUser)
 const { handleTaskSumary, handleFeedBack } = storeUser
 
 const summaryText = computed(() => feedbackObject.value?.summary ?? '')
 const taskSummary = computed(() => taskSummaryObject?.value ?? '')
 
+const loading = ref(false)
+
 onMounted(async () => {
-    await handleTaskSumary(storeAuth.user.id)
+  await handleTaskSumary(storeAuth.user.id)
 })
 
 const myFeedBack = async () => {
-    const payload = {
-        "user_id": taskSummary.value.user_id,
-        "user_name": taskSummary.value.user_name,
-        "task_summary": {
-            "total": taskSummary.value.task_summary.total,
-            "on_time": taskSummary.value.task_summary.on_time,
-            "late": taskSummary.value.task_summary.late,
-            "pending": taskSummary.value.task_summary.pending,
-            "percent_on_time": taskSummary.value.task_summary.percent_on_time
-        }
+
+  if (!taskSummary.value) return
+
+  loading.value = true
+
+  const payload = {
+    "user_id": taskSummary.value.user_id,
+    "user_name": taskSummary.value.user_name,
+    "task_summary": {
+      "total": taskSummary.value.task_summary.total,
+      "on_time": taskSummary.value.task_summary.on_time,
+      "late": taskSummary.value.task_summary.late,
+      "pending": taskSummary.value.task_summary.pending,
+      "percent_on_time": taskSummary.value.task_summary.percent_on_time
     }
+  }
+
+  try {
     await handleFeedBack(payload)
+  } finally {
+    loading.value = false // termina spinner mesmo se der erro
+  }
 }
 </script>
