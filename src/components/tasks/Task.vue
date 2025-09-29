@@ -1,26 +1,17 @@
 <template>
   <li class="list-group-item py-3">
     <div class="d-flex justify-content-start align-items-start">
-      <!-- Avatar do usuário -->
       <img v-if="task.user" class="rounded-circle me-2" width="40" height="40" :src="task.user?.profile"
            :alt="task.user?.name">
-
-      <!-- Container do texto da task -->
       <div class="flex-grow-1 text-break" style="min-width: 0;" :class="completedClass"
            title="Double click the text to edit or remove" @dblclick="isEdit = true">
-
-        <!-- Edit mode -->
         <div class="relative" v-if="isEdit">
           <input class="editable-task w-100" type="text" v-focus @keyup.esc="undo" @keyup.enter="updateTask"
                  v-model="editingTask" />
         </div>
-
-        <!-- Display mode -->
         <span v-else>
           {{ task.name }}
         </span>
-
-        <!-- Priority e Delivery Status -->
         <div class="d-flex flex-column text-start mt-1">
           <div class="task-delivery-status text-muted">
             <span v-if="task.priority">
@@ -41,8 +32,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Infos do usuário e datas -->
       <div class="d-flex flex-column text-end ms-2" style="min-width: 120px;">
         <div class="task-user text-muted">
           <span v-if="task.user?.name">
@@ -55,8 +44,6 @@
         <div class="task-date">Updated: {{ task.updated_at }}</div>
       </div>
     </div>
-
-    <!-- Ações da task -->
     <TaskActions @edit="isEdit = true" v-show="!isEdit" @remove="removeTask" />
   </li>
 </template>

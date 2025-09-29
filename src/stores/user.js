@@ -24,6 +24,7 @@ export const userStore = defineStore('userStore', () => {
             feedbackObject.value = result.data
             console.log(feedbackObject.value)
         } catch (error)  {
+            console.log(error, '.....')
             errors.value = error
         }
     }

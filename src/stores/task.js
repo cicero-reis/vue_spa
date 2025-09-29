@@ -35,8 +35,11 @@ export const useTaskStore = defineStore('taskStore', () => {
         try {
             const { data: createdTask } = await createTask(newTask)
             tasks.value.unshift(createdTask)
+            errors.value = {}
+            return true
         } catch (error) {
             errors.value = error
+            return false
         }
     }
 

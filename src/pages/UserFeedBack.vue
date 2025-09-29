@@ -1,6 +1,5 @@
 <template>
-  <div class="container my-5">
-
+  <div class="container my-5">    
     <div v-if="taskSummary?.task_summary" class="card shadow-sm">
       <div class="card-header bg-primary text-white">
         <h5 class="mb-0">Resumo das Tarefas - {{ taskSummary.user_name }}</h5>
@@ -56,13 +55,17 @@
         </div>
       </div>
     </div>
+    <div v-if="Object.keys(storeUser.errors).length" class="alert alert-danger text-center mt-4">
+      <div v-for="(messages, field) in storeUser.errors" :key="field">
+        <span v-for="msg in messages" :key="msg" class="d-block">{{ msg }}</span>
+      </div>
+    </div>
     <div class="d-flex justify-content-center gap-3 mt-4">
       <button class="btn btn-outline-secondary btn-lg" @click.prevent="myFeedBack" :disabled="loading">
         <span v-if="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
         My Feedback
       </button>
     </div>
-
     <div v-if="summaryText" class="alert alert-info mt-4" role="alert">
       {{ summaryText }}
     </div>
