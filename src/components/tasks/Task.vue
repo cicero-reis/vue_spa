@@ -88,8 +88,10 @@ const undo = () => {
 }
 
 const markTaskAsCompleted = event => {
+  if (confirm("Are you sure")) {
     const updateTaskIsCompletd = { ...props.task, is_completed: !props.task.is_completed }
     emit('completed', updateTaskIsCompletd)
+  }
 }
 
 const removeTask = () => {
@@ -99,7 +101,7 @@ const removeTask = () => {
 }
 
 const assignTask = async (taskId) => {
-    await handledAssignTask(taskId, authStore.user.id)
+  await handledAssignTask(taskId, authStore.user.id)
 }
 
 </script>

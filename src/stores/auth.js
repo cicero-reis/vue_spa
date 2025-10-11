@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { login, logout } from '@/http/auth-api'
-import registerFcmToken from "@/services/registerFcmToken";
+import registerFcmToken from "@/services/firebase/registerFcmToken";
 import jwtDecode from "jwt-decode" 
 
 export const useAuthStore = defineStore('authStore', () => {

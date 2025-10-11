@@ -1,4 +1,4 @@
-import { messaging, getFcmToken  } from "@/services/firebase"
+import { messaging, getFcmToken  } from "@/services/firebase/firebase"
 import { fmc } from '@/http/user-api'
 import { useAuthStore } from '@/stores/auth';
 

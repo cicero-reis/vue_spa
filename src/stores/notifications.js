@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import registerFcmToken from "@/services/registerFcmToken";
-import { onFcmMessage } from "@/services/firebase"
+import registerFcmToken from "@/services/firebase/registerFcmToken";
+import { onFcmMessage } from "@/services/firebase/firebase"
 
 export const useNotificationStore = defineStore("notifications", {
   state: () => ({

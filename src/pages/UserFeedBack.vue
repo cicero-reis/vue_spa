@@ -113,7 +113,7 @@ const myFeedBack = async () => {
   try {
     await handleFeedBack(payload)
   } finally {
-    loading.value = false // termina spinner mesmo se der erro
+    loading.value = false
   }
 }
 </script>
